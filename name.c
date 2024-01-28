@@ -5,7 +5,7 @@ int main(){
     char firstName[30];
 
     printf("Enter your first name: \n");
-    scanf("%s", firstName);
+    scanf(" %s", firstName);
 
     if(strlen(firstName) > 2){
         int i =0;
