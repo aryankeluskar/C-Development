@@ -32,7 +32,13 @@ int main() {
             scanf("%s", currPlayer.name);
             currPlayer.score = PlayGuessingGame();
             printf("You made %d guesses.\n", currPlayer.score);
-            FILE *file = fopen("scores.txt", "r");
+
+            FILE *file = fopen("scores.txt", "w");
+            fclose(file);
+
+            // return 0;
+            
+            file = fopen("scores.txt", "r");           
 
             // creating an array of players to store all players' scores with their names, but only top 5 players will be stored plus the current player
             struct player allPlayers[6];
@@ -45,14 +51,24 @@ int main() {
                 char currName[100];
                 int currScore;
                 int i = 0;
+                fscanf(file, "%s :%d\n", currName, &currScore);
+                printf("Read %s:%d\n", currName, currScore);
                 // fscanf(file, "%s:%d", currName, &currScore);
                 // printf("Read %s:%d\n", currName, currScore);
-                while (fscanf(file, "%s :%d\n", currName, &currScore) != EOF && i < 5) {
+                while ((fscanf(file, "%s :%d\n", currName, &currScore) != EOF) && i < 5) {
                     // printf("Read %s who scored:%d\n", currName, currScore);
                     allPlayers[i].score = currScore;
                     strcpy(allPlayers[i].name, currName);
                     i++;
                 }
+                printf("Read %d players\n", i);
+
+                int numPlayers = i;
+
+                if(i==0){
+                    allPlayers[0] = currPlayer;
+                }
+                else{
 
                 // instead of sorting, which has horrible time complexity, we can just insert the current player in the correct position because the file is already sorted from previous runs
                 while (i > 0 && allPlayers[i-1].score > currPlayer.score) {
@@ -64,13 +80,22 @@ int main() {
                 // insert the current player at the correct position
                 allPlayers[i] = currPlayer;
 
+                }
+
                 // clear contents of file, then write allPlayers to file
                 fclose(file);
                 file = fopen("scores.txt", "w");
 
+                printf("Here are the current leaders:\n");
+
+                if(numPlayers < 5) {
+                    numPlayers++;
+                }
+
                 // write all players to file by rewriting the file entirely
                 // the worst player of the 6 will be eliminated at this stage
-                for (int j = 0; j < 5; j++) {
+                for (int j = 0; j < numPlayers; j++) {
+                    printf("%s made %d guesses\n", allPlayers[j].name, allPlayers[j].score);
                     fprintf(file, "%s :%d\n", allPlayers[j].name, allPlayers[j].score);
                 }
                 fclose(file);
