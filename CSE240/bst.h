@@ -9,3 +9,5 @@ struct node
 
 struct node *createNode(int data, char *question, char *guess);
 struct node *insert(struct node *root, int data, char *question, char *guess);
+
+typedef struct node Node;

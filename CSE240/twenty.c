@@ -22,6 +22,8 @@ struct node *create_game_tree()
     insert(root, 185, "", "It's a pea!");
     return root;
 }
+
+
 int main()
 {
     struct node *root = create_game_tree();
