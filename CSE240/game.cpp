@@ -6,6 +6,7 @@
 
 using namespace std;
 
+// class to store player name and score
 class Player {
 public:
     string name;
@@ -29,6 +30,7 @@ int getGuess() {
     cin >> guess;
     // clear buffer
     while (cin.fail() || guess < 10 || guess > 100) {
+        // validate input and clear buffer
         cin.clear();
         cin.ignore(1000, '\n');
         cout << "Invalid input. Please enter a number between 10 and 100: ";
@@ -72,12 +74,14 @@ int main() {
         cin >> name;
         int score;
         score = PlayGuessingGame();
+
+        // Create a player object with the name and score
         Player curr(name, score);
         cout << "You made " << score << " guesses." << endl;
 
         // Open the file
         ifstream fileIn("scores.txt");
-        Player allPlayers[6];
+        Player allPlayers[6]; // 5 players at max + 1 for the current player
         int i = 0;
         bool inserted = false;
 
@@ -87,19 +91,20 @@ int main() {
         }
         fileIn.close();
 
+        // use a variable to store the number of players because i will be used to insert the current player in the correct position
         int numPlayers = i;
         
-        cout << i << endl;
+        // cout << i << endl;
         while (i > 0 && allPlayers[i-1].score > curr.score) {
             // go from end of array to start, shifting all players with higher scores to the right until the current player's score is better than the player at index i-1
             allPlayers[i] = allPlayers[i-1];
             i--;
-            cout << i;
+            // cout << i;
         }
 
         allPlayers[i] = curr;
 
-        cout << "\nnum PLayers: " << numPlayers << "\n";
+        // cout << "\nnum PLayers: " << numPlayers << "\n";
         if(numPlayers < 5) 
             numPlayers++;
             
