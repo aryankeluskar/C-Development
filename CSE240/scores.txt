@@ -1,1 +1,5 @@
-ekwn :2
+de 2
+gj 4
+fhj 4
+dkn 7
+jdk 11
