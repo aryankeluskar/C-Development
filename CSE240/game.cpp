@@ -24,6 +24,11 @@ public:
     }
 };
 
+class Leaderboard{
+    public:
+    Player allPlayers[6]; // 5 players at max + 1 for the current player
+};
+
 int getGuess() {
     int guess;
     cout << "Guess a value between 10 and 100: ";
@@ -81,12 +86,15 @@ int main() {
 
         // Open the file
         ifstream fileIn("scores.txt");
-        Player allPlayers[6]; // 5 players at max + 1 for the current player
+        // Player allPlayers[6]; // 5 players at max + 1 for the current player
+
+        Leaderboard lb;
+        
         int i = 0;
         bool inserted = false;
 
         // Read existing scores
-        while (fileIn >> allPlayers[i].name >> allPlayers[i].score) {
+        while (fileIn >> lb.allPlayers[i].name >> lb.allPlayers[i].score) {
             i++;
         }
         fileIn.close();
@@ -95,14 +103,14 @@ int main() {
         int numPlayers = i;
         
         // cout << i << endl;
-        while (i > 0 && allPlayers[i-1].score > curr.score) {
+        while (i > 0 && lb.allPlayers[i-1].score > curr.score) {
             // go from end of array to start, shifting all players with higher scores to the right until the current player's score is better than the player at index i-1
-            allPlayers[i] = allPlayers[i-1];
+            lb.allPlayers[i] = lb.allPlayers[i-1];
             i--;
             // cout << i;
         }
 
-        allPlayers[i] = curr;
+        lb.allPlayers[i] = curr;
 
         // cout << "\nnum PLayers: " << numPlayers << "\n";
         if(numPlayers < 5) 
@@ -111,14 +119,14 @@ int main() {
 
         cout << "Here are the current leaders:" << endl;
         for (int j = 0; j < numPlayers; ++j) {
-            cout << allPlayers[j].name << " made " << allPlayers[j].score << " guesses." << endl;
+            cout << lb.allPlayers[j].name << " made " << lb.allPlayers[j].score << " guesses." << endl;
         }
 
 
         // Write the updated leaderboard to the file
         ofstream fileOut("scores.txt");
         for (int j = 0; j < numPlayers; ++j) {
-            fileOut << allPlayers[j].name << " " << allPlayers[j].score << endl;
+            fileOut << lb.allPlayers[j].name << " " << lb.allPlayers[j].score << endl;
         }
         fileOut.close();
 
