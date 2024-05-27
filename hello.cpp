@@ -47,5 +47,9 @@ int main(int argc, char *argv[]) {
     cout << "Area: " << shape.area() << endl;
     cout << "Perimeter: " << shape.perimeter() << endl;
 
+    if(h==0){
+        throw string("lol noob");
+    }
+
     return 0;
 }
